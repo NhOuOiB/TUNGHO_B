@@ -22,11 +22,7 @@ router.post('/login', async (req, res) => {
             }
 
             let user = users[0];
-            console.log(user);
-            res.json({
-                id: user.id,
-                name: user.account,
-            });
+            res.json({ message: '成功登入' });
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: '伺服器錯誤' });

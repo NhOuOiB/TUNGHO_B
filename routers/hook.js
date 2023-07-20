@@ -32,6 +32,8 @@ router.put('/updateLiftStatus', hookController.updateLiftStatus)
 
 router.put('/updateStorageStatus', hookController.updateStorageStatus)
 
+router.put('/resetHookPair', hookController.resetHookPair)
+
 router.post('/addGroup', hookController.addGroup)
 
 router.delete('/deleteGroup', hookController.deleteGroup)

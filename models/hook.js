@@ -174,7 +174,7 @@ async function getHooks(unit) {
         request.input('unit', mssql.VarChar, unit);
 
         let data = await request.query(
-            'SELECT * FROM Hook h LEFT JOIN Product AS p ON h.ProductNo = p.ProductNo WHERE Unit = @unit ORDER BY h.ProductNo DESC'
+            'SELECT * FROM Hook h LEFT JOIN Product AS p ON h.ProductNo = p.ProductNo WHERE Unit = @unit ORDER BY h.ProductNo DESC, HookNo'
         );
 
         return data.recordset;
@@ -299,6 +299,24 @@ async function updateStorageStatus(unit, storageNo, status) {
     }
 }
 
+async function resetHookPair(unit) {
+    let connection = await pool.connect();
+    try {
+        const request = new mssql.Request(connection);
+
+        request.input('unit', mssql.VarChar, unit);
+
+        let res = await request.query(
+            "UPDATE Hook SET HookHistoryNo = 0, LiftNo = null, StorageNo = null, ProductFlag = 0, Status = null, GroupNo = null, ProductNo = null WHERE Unit = @unit"
+        );
+
+        return { message: '更新成功' };
+    } catch (error) {
+        console.log(error);
+        return { message: '伺服器錯誤' };
+    }
+}
+
 async function addGroup(unit, group, product, liftStart, storageStart) {
     let connection = await pool.connect();
     try {
@@ -388,6 +406,7 @@ module.exports = {
     updateLS,
     updateLiftStatus,
     updateStorageStatus,
+    resetHookPair,
     addGroup,
     deleteGroup,
 };

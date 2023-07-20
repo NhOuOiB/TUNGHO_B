@@ -103,6 +103,13 @@ async function updateStorageStatus(req, res) {
     res.json(ressult);
 }
 
+async function resetHookPair(req, res) {
+    let unit = req.body.unit;
+
+    let ressult = await hookModel.resetHookPair(unit);
+    res.json(ressult);
+}
+
 async function addGroup(req, res) {
     let unit = req.body.unit;
     let group = req.body.group;
@@ -140,6 +147,7 @@ module.exports = {
     updateLS,
     updateLiftStatus,
     updateStorageStatus,
+    resetHookPair,
     addGroup,
     deleteGroup,
 };
